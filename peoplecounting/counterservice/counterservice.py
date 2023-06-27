@@ -1,5 +1,5 @@
 """
-© Copyright CERN 2019.  All rights reserved. This software is released under a CERN proprietary
+© Copyright CERN 2023.  All rights reserved. This software is released under a CERN proprietary
 software licence. Any permission to use it shall be granted in writing. Requests shall be
 addressed to CERN through mail-KT@cern.ch
 
@@ -41,7 +41,7 @@ class PeopleCounterService:
     def __workerAsync(self):
         print("Worker starts ... ")
         while(not self.__stop):
-            print("loopy loopy wee")
+            print("loop")
             self.__frameCapture()
             if (self.__cb != None):
                 self.__cb(self.__cvFrame)
