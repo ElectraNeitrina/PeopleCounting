@@ -8,7 +8,7 @@ ADD . /web
 WORKDIR /web
 # Install app dependencies
 RUN npm install
-RUN npm install supervisor
+RUN npm install supervisor body-parser
 
 EXPOSE  8080
 ENTRYPOINT ["nodejs", "./index.js"]

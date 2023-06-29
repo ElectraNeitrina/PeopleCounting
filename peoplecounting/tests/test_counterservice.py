@@ -1,5 +1,5 @@
 """
-© Copyright CERN 2019.  All rights reserved. This software is released under a CERN proprietary
+© Copyright CERN 2023.  All rights reserved. This software is released under a CERN proprietary
 software licence. Any permission to use it shall be granted in writing. Requests shall be
 addressed to CERN through mail-KT@cern.ch
 
@@ -24,7 +24,7 @@ def test_start_and_stop_the_service():
     sut.start()
     sut.stop()
     sut.stop()
-    sut.registerDetectionCallback(lambda x : print("Peron detected: {}", x))
+    sut.registerDetectionCallback(lambda x : print("Person detected: {}", x))
     sut.start()
     time.sleep(2)
     sut.stop()

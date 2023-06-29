@@ -54,3 +54,6 @@ class PeopleCounterService:
             print("Can't receive frame (stream end?)")
             return
         self.__cvFrame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        ret,frame = cv.threshold(frame,80,255,cv.THRESH_BINARY)
+
+

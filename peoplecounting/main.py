@@ -14,7 +14,7 @@ if __name__ == "__main__":
     peopleDetector.registerDetectionCallback(displayFrame)
     peopleDetector.start()
     # time.sleep(5)
-    input("dupa dupa")
+    input("message")
     peopleDetector.stop()
 
 
