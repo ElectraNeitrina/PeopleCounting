@@ -12,6 +12,7 @@ bash: build
 run: build
 	docker run -i -t -p 43567:8080 -d $(NAME)
 
+	
 test:
 	curl localhost:43567
 

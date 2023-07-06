@@ -1,0 +1,47 @@
+{
+    "transportOperators": [{
+        "id": 1,
+        "name": "CompanyX",
+        "description": "Geneva city public transport"
+    }, {
+        "id": 2,
+        "name": "CompanyY",
+        "description": "Uber operated bus service"
+    }, {
+        "id": 3,
+        "name": "CompanyZ",
+        "description": "Flexi-whatever"
+    }],
+    "vehicles": {
+        "1": {
+            "name": "bus1",
+            "peopleCounter": "12",
+            "description": "TODO"
+        },
+        "2": {
+            "name": "bus2",
+            "peopleCounter": "34",
+            "description": "TODO"
+        },
+        "3": {
+            "name": "tram3",
+            "peopleCounter": "56",
+            "description": "TODO"
+        },
+        "4": {
+            "name": "train4",
+            "peopleCounter": "78",
+            "description": "TODO"
+        }
+    },
+    "fleetConfiguration": [{
+        "companyId": 1,
+        "fleet": ["1", "2", "3"]
+    }, {
+        "companyId": 2,
+        "fleet": ["4"]
+    }, {
+        "companyId": 3,
+        "fleet": []
+    }]
+}

@@ -1,0 +1,35 @@
+
+
+<!DOCTYPE html>
+<html>
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
+<body>
+
+<h1> People counting data: </h1>
+
+<% data.transportOperators.forEach(function(o) { %>
+    <h2><%= o.name %></h2>
+    <table style="width:100%">
+        <tr>
+            <th>Vehicle</th>
+            <th>People count</th>
+        </tr>
+        <% data.fleetConfiguration.forEach(function(conf) { %>
+            <%if (conf.companyId == o.id) { %>
+                <% conf.fleet.forEach(function(fl) { %>
+                    <tr>
+                        <td><%= data.vehicles[fl].name %></td>
+                        <td><%= data.vehicles[fl].peopleCounter %></td>
+                    </tr>
+                <% }); %>
+            <% } %>
+        <% }); %>
+    </table>
+<% }); %>
+
+</body>
+</html>
