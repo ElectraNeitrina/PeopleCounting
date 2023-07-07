@@ -2,34 +2,130 @@
 
 <!DOCTYPE html>
 <html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 table, th, td {
   border:1px solid black;
 }
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+#parent {
+  display: flex;
+}
+#toggleBox {
+  background: lightblue;
+}
 </style>
+</head>
 <body>
 
 <h1> People counting data: </h1>
 
-<% data.transportOperators.forEach(function(o) { %>
+<% data.transportData.transportOperators.forEach(function(o) { %>
     <h2><%= o.name %></h2>
     <table style="width:100%">
         <tr>
             <th>Vehicle</th>
             <th>People count</th>
         </tr>
-        <% data.fleetConfiguration.forEach(function(conf) { %>
+        <% data.transportData.fleetConfiguration.forEach(function(conf) { %>
             <%if (conf.companyId == o.id) { %>
                 <% conf.fleet.forEach(function(fl) { %>
                     <tr>
-                        <td><%= data.vehicles[fl].name %></td>
-                        <td><%= data.vehicles[fl].peopleCounter %></td>
+                        <td><%= data.transportData.vehicles[fl].name %></td>
+                        <td><%= data.transportData.vehicles[fl].peopleCounter %></td>
                     </tr>
                 <% }); %>
             <% } %>
         <% }); %>
     </table>
 <% }); %>
+
+<script>
+function handleClick(cb) {
+    console.log("Clicked, new value = " + cb.checked);
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/internal");
+    xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    const body = JSON.stringify({"simulated": !cb.checked});
+    xhr.send(body);
+}
+</script>
+
+<h2>Toggle switch for simulated or live data</h2>
+
+<div id="parent">
+  <div id="toggleBox">Simulated</div>
+  <div id="toggleBox">
+    <label class="switch">
+        <% if (data.simulated) { %>
+            <input type="checkbox" onClick="handleClick(this)">
+        <% } else { %>
+            <input type="checkbox" onClick="handleClick(this)" checked>
+        <% } %>
+      <span class="slider round"></span>
+    </label>
+  </div>
+  <div id="toggleBox">Live Data</div>
+</div>
 
 </body>
 </html>

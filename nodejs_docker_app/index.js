@@ -1,7 +1,6 @@
 var transportData = require("./transportData.json");
 var offlineSimulatedData = {"transportData": JSON.parse(JSON.stringify(transportData)), "simulated": true};
 const express = require('express')
-//const ejs = require('ejs') 
 const app = express()
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -11,9 +10,13 @@ app.locals.data = {"transportData": transportData, "simulated": true};
 
 app.get('/', function(req, res) {
   console.log("Stored json:", JSON.stringify(app.locals.data));
-    console.log("Transport data:", JSON.stringify(transportData));
+  console.log("Transport data:", JSON.stringify(transportData));
   console.log("People counter value: ", app.locals.data.peoplecounter);
-  res.render('index', {data: transportData});
+  if (req.app.locals.data.simulated) {
+    res.render('index', {data: offlineSimulatedData});
+  } else {
+    res.render('index', {data: req.app.locals.data});
+  }
 });
 
 app.post('/api', function(req, res) {
