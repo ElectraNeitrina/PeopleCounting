@@ -14,7 +14,7 @@ import cv2 as cv
 
 BINARY_THRESHOLD_LOW = 80
 BINARY_THRESHOLD_UP = 255
-NORM_THRESHOLD = 50000 # to be tuned ...
+NORM_THRESHOLD = 50000 # could be tuned if needed...
 
 class PeopleCounterService:
     def __init__(self, captureDevice, refFrame):
@@ -51,7 +51,7 @@ class PeopleCounterService:
             cvFrame = self.__frameCapture()
             print ("shape: {} vs {}",cvFrame.shape, self.__refFrame.shape)
             normDiff = cv.norm(cv.absdiff(cvFrame, self.__refFrame))
-            print("the valuse of the nor matrix", normDiff)
+            print("the value of the norm matrix", normDiff)
             if (normDiff > NORM_THRESHOLD and not self.__personDetected):
                 print("new person detected")
                 self.__personDetected = True
