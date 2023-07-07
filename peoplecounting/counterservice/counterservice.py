@@ -12,14 +12,20 @@ import time
 import numpy as np
 import cv2 as cv
 
+BINARY_THRESHOLD_LOW = 80
+BINARY_THRESHOLD_UP = 255
+NORM_THRESHOLD = 50000 # to be tuned ...
+
 class PeopleCounterService:
-    def __init__(self, captureDevice):
+    def __init__(self, captureDevice, refFrame):
         print("init")
         self.__captureDevice = captureDevice
+        self.__refFrame = refFrame
         self.__worker = Thread()
         self.__stop = True
         self.__cb = None
-        self.__cvFrame = None
+        self.__personDetected = False
+        self.__peopleCounter = 0
     def start(self):
         print("start")
         self.__stop = False
@@ -42,9 +48,19 @@ class PeopleCounterService:
         print("Worker starts ... ")
         while(not self.__stop):
             print("loop")
-            self.__frameCapture()
+            cvFrame = self.__frameCapture()
+            print ("shape: {} vs {}",cvFrame.shape, self.__refFrame.shape)
+            normDiff = cv.norm(cv.absdiff(cvFrame, self.__refFrame))
+            print("the valuse of the nor matrix", normDiff)
+            if (normDiff > NORM_THRESHOLD and not self.__personDetected):
+                print("new person detected")
+                self.__personDetected = True
+                self.__peopleCounter += 1
+            elif (normDiff < NORM_THRESHOLD and self.__personDetected):
+                print("person no longer detected")
+                self.__personDetected = False
             if (self.__cb != None):
-                self.__cb(self.__cvFrame)
+                self.__cb(cvFrame, self.__peopleCounter)
             time.sleep(1)
         print("Worker stops ... ")
     def __frameCapture(self):
@@ -52,8 +68,8 @@ class PeopleCounterService:
         # if frame is read correctly ret is True
         if not ret:
             print("Can't receive frame (stream end?)")
-            return
-        self.__cvFrame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-        ret,frame = cv.threshold(frame,80,255,cv.THRESH_BINARY)
-
-
+            return None
+        frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        ret,frame = cv.threshold(frame,BINARY_THRESHOLD_LOW,BINARY_THRESHOLD_UP,cv.THRESH_BINARY)
+#        cv.imwrite("refFrame.png",frame)
+        return frame
