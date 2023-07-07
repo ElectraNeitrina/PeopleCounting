@@ -1,29 +1,16 @@
 # PeopleCounting
 pre interview concept app
 
-# Article plan:
+# The idea and what was done
 
-## State of the art - people counting
-
- - opencv people counting with raspberry pi: https://pyimagesearch.com/2018/08/13/opencv-people-counter/
- - Terabee industrialized solution: https://www.terabee.com/shop/people-counting/terabee-people-counting-l/
- - another approach - distance sensor based: https://www.terabee.com/shop/industrial-automation/terabee-ind-tof-1/
- - opencv theory, HOG algorithm, people detection: https://thedatafrog.com/en/articles/human-detection-video/
-
-## Your approach to the problem
-
- - System design with interfaces: start, stop, registerCallback, and a hardware device for counting can be substituted
- - Python counting program interfaces web application through POST method
- - web application runs Node.js inside the Docker container
- - replies to user requests with GET and renders some user friendly data on the website, listens to POST from python system to update the counter
- - theory about contenerization: https://nodejs.org/en/docs/guides/nodejs-docker-webapp
- - another possible technologies: Java https://www.docker.com/blog/how-i-built-my-first-containerized-java-web-application/
-
-## Further steps:
-
- - improve people counting algorithn: naive approach (frame diff), laser counting approach (square wave), machine learning approach (opencv stuff from the article)
- - improve python - web communication: possibly encrypted, binary protocol, redundant channels in case of medium loss
- - improve web: nice GUI, investigate user needs and implement REST API features
+1)The system design is working with interfaces: start, stop, registerCallback, and a hardware device for counting; those features have been tested during the beginning steps;
+2)The system uses simple threshold method (differences between pictures). It requires to have a reference (gray) frame and every time do "||newFrame - refFrame|| > threshold => count a person (1)"
+3) A value of normMatrix can help to understand the threshold value to tune the system; in the example of ref picture ("refFrame.png") the value of the normMatrix without a person (object) is around 57k and with a person around 80k. This difference used to detect a person (object). 
+4) Python counting program interfaces web application through the POST method;
+5) Web application runs Node.js inside the Docker container
+6) Replies to user requests with GET and renders user-friendly GUI (table) on the website, listens to POST from python system to update the counter; a possibility to compare a data was implemented by a button, which is switching "simulated" and "live data".
+7) Public transport operators are identified by ID, they have Name, they have Description, and they can have collection of Vehicles (fleet) - configured by many-2-many relation in fleetConfiguration
+8) Vehicles are identified by ID, they have Name, they have PeopleCounter (subject to live changes), they Have description, and they can be associated with transport company (let's assume 2 transport companies can share a vehicle, because why not); so again many-2-many relation described in fleetConfiguration
 
 
  
