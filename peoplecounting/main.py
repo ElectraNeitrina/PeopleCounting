@@ -7,7 +7,7 @@ import requests
 import json
 
 # change URL to match your port
-API_URL = "http://localhost:3000/api"
+API_URL = "http://localhost:43567/api"
 VEHICLE_ID = "1"
 
 def displayFrameAndPostApi(cvFrame, counter):
